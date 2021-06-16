@@ -68,10 +68,10 @@ class Reservation(models.Model):
         verbose_name_plural = 'Бронирование'
 
 
-    """def save(self):
-        status = self.status
+    def save(self):
+        status = Reservation.status
         Table.status = status
-        super(Reservation, self).save()"""
+        super(Reservation, self).save()
 
 
     """def save(self):

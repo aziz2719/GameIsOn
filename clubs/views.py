@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import filters
+from rest_framework.response import Response
 
 from .models import Club, ClubImage, Table, Reservation, ComputerClub, Announcement, PriceList, Game, ClubRules, GameAccessoriesSpecification
 from .serializers import ClubSerializer, ClubImageSerializer, TableSerializer, ReservationSerializer, ComputerClubSerializer, AnnouncementSerializer, \
@@ -48,27 +49,29 @@ class ReservationView(ModelViewSet):
     #permission_classes = (IsAuthenticated, ) 
     lookup_field = 'pk'
 
-    """def create(self, request, *args, **kwargs):
-        'computer_club', 'owner', 'seats', 'date_slot', 'time1', 'time2', 'using_time', 'status2'
+    def create(self, request, *args, **kwargs):
         computer_club = request.data.get('computer_club')
-        user = request.user.owner_reservation
         seats = request.data.get('seats')
-        time = request.data.get('time1')
+        user = request.user.owner_reservation
+        time = request.data.get('time')
         using_time = request.data.get('using_time')
-        status = request.data.get('status2')
-        resrvation = Reservation.objects.create(club=computer_club, client=user, seats=seats, \
+        status = request.data.get('status')
+        reservation = Reservation.objects.create(club=computer_club, seats=seats, client=user, \
             time=time, using_time=using_time, status=status)
-        for seat in seats:
+
+        if request.data == Reservation:
             self.status = Table.objects.get(id=seats.get('seats_id')).status
             status = self.status
-            OrderProducts.objects.create(
-                order=order_created,
-                product_id=product.get('product_id'),
-                count=product.get('count')
+            Reservation.objects.create(
+                    computer_club = request.data.get('computer_club'),
+                    seats = request.data.get('seats'),
+                    user = request.user.owner_reservation,
+                    time = request.data.get('time'),
+                    using_time = request.data.get('using_time'),
+                    status = request.data.get('status')
             )
-        order_created.total_price = total_sum
-        order_created.save()
-        return Response('Success')"""
+        reservation.save()
+        return Response('Success')
 
 class PriceListView(ModelViewSet):
     queryset = PriceList.objects.all()
