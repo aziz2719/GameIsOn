@@ -67,13 +67,6 @@ class Reservation(models.Model):
         verbose_name = 'Бронирование'
         verbose_name_plural = 'Бронирование'
 
-
-    def save(self):
-        status = Reservation.status
-        Table.status = status
-        super(Reservation, self).save()
-
-
     """def save(self):
         time1 = self.time1
         time1 = time1.replace(hour=time1.hour + self.using_time)

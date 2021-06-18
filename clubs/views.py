@@ -15,13 +15,13 @@ class AnnouncementView(ModelViewSet):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     lookup_field = 'pk'
-    #permission_classes = (IsAdminOrCreateClub, )
+    permission_classes = (IsAdminOrCreateClub, )
 
 class ComputerClubView(ModelViewSet):
     queryset = ComputerClub.objects.prefetch_related('announcement_computer_club')
     serializer_class = ComputerClubSerializer
     lookup_field = 'pk'
-    #permission_classes = (IsAdminOrCreateClub, )
+    permission_classes = (IsAdminOrCreateClub, )
     #http_method_names = ['get', 'post']
 
 class ClubView(ModelViewSet):
@@ -30,24 +30,24 @@ class ClubView(ModelViewSet):
          #clubs.computer_club если нету связи от род
     serializer_class = ClubSerializer 
     lookup_field = 'pk'
-    #permission_classes = (IsAdminUserClubCreate, )
+    permission_classes = (IsAdminUserClubCreate, )
 
 class ClubImageView(ModelViewSet):
     queryset = ClubImage.objects.all()
     serializer_class = ClubImageSerializer
     lookup_field = 'pk'
-    #permission_classes = (IsAdminUserClubCreate, )
+    permission_classes = (IsAdminUserClubCreate, )
 
 class TableView(ModelViewSet):
     queryset = Table.objects.all()
     serializer_class = TableSerializer
     lookup_field = 'pk'
-    #permission_classes = (IsAdminUserClubCreate, )
+    permission_classes = (IsAdminUserClubCreate, )
 
 class ReservationView(ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-    #permission_classes = (IsAuthenticated, ) 
+    permission_classes = (IsAuthenticated, ) 
     lookup_field = 'pk'
 
     def create(self, request, *args, **kwargs):
@@ -78,13 +78,13 @@ class PriceListView(ModelViewSet):
     queryset = PriceList.objects.all()
     serializer_class = PriceListSerializer
     lookup_field = 'pk'
-    #permission_classes = (IsAdminUserClubCreate, )
+    permission_classes = (IsAdminUserClubCreate, )
 
 class GameView(ModelViewSet):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
     lookup_field = 'pk'
-    #permission_classes = (IsAdminUserClubCreate, )
+    permission_classes = (IsAdminUserClubCreate, )
     filter_backends = [filters.SearchFilter]
     search_fields = ['game']
 
@@ -92,7 +92,7 @@ class ClubRulesView(ModelViewSet):
     queryset = ClubRules.objects.all()
     serializer_class = ClubRulesSerializer
     lookup_field = 'pk'
-    #permission_classes = (IsAdminUserClubCreate, )
+    permission_classes = (IsAdminUserClubCreate, )
 
 class GameAccessoriesSpecificationView(ModelViewSet):
     queryset = GameAccessoriesSpecification.objects.all()
@@ -100,4 +100,4 @@ class GameAccessoriesSpecificationView(ModelViewSet):
     lookup_field = 'pk'
     filter_backends = [filters.SearchFilter]
     search_fields = ['game_accessories_specification']
-    #permission_classes = (IsAdminUserClubCreate, )
+    permission_classes = (IsAdminUserClubCreate, )
