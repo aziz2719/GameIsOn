@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_cleanup.apps.CleanupConfig',
     'django_filters',
+    'corsheaders',
     
     'users',
     'clubs',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -153,3 +155,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 OLD_PASSWORD_FIELD_ENABLED = True
+
+CORS_ALLOW_ALL_ORIGINS=True

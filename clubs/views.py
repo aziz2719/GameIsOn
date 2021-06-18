@@ -26,7 +26,8 @@ class ComputerClubView(ModelViewSet):
 
 class ClubView(ModelViewSet):
     queryset = Club.objects.prefetch_related('club_image', 'club_table', 'club_reservation', 'price_list', 'game_list', 'club_rules_list', \
-        'game_accessories_specification_list').select_related('computer_club') # префетч есть связь от род класса clubs.Club селект дочерний clubs.computer_club если нету связи от род
+        'game_accessories_specification_list').select_related('computer_club') # префетч есть связь от род класса clubs.Club селект дочерний
+         #clubs.computer_club если нету связи от род
     serializer_class = ClubSerializer 
     lookup_field = 'pk'
     #permission_classes = (IsAdminUserClubCreate, )
