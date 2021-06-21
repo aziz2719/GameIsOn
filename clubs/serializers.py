@@ -2,19 +2,6 @@ from rest_framework import serializers
 from .models import Club, ClubImage, Table, Reservation, ComputerClub, Announcement, PriceList, \
    Game, ClubRules, GameAccessoriesSpecification
 
-class AnnouncementSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Announcement
-        fields = ('id', 'news', 'text', 'image')
-
-
-class ComputerClubSerializer(serializers.ModelSerializer):
-    announcement_computer_club = AnnouncementSerializer(many=True, read_only=True)
-    
-    class Meta:
-        model = ComputerClub
-        fields = ('id', 'computer_club', 'announcement_computer_club')
-
 
 class ClubImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,3 +57,20 @@ class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = ('id', 'club', 'address', 'phone', 'seat', 'club_image', 'club_table', 'club_reservation', 'price_list', 'game_list', 'club_rules_list', 'game_accessories_specification_list')
+
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Announcement
+        fields = ('id', 'news', 'text', 'image')
+
+
+class ComputerClubSerializer(serializers.ModelSerializer):
+    announcement_computer_club = AnnouncementSerializer(many=True, read_only=True)
+    club_computer_club = ClubSerializer(many=True, read_only=True)
+    class Meta:
+        model = ComputerClub
+        fields = ('id', 'computer_club', 'club_computer_club', 'announcement_computer_club')
+
+
+

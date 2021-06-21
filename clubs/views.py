@@ -11,19 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 
-class AnnouncementView(ModelViewSet):
-    queryset = Announcement.objects.all()
-    serializer_class = AnnouncementSerializer
-    lookup_field = 'pk'
-    permission_classes = (IsAdminOrCreateClub, )
-
-class ComputerClubView(ModelViewSet):
-    queryset = ComputerClub.objects.prefetch_related('announcement_computer_club')
-    serializer_class = ComputerClubSerializer
-    lookup_field = 'pk'
-    permission_classes = (IsAdminOrCreateClub, )
-    #http_method_names = ['get', 'post']
-
 class ClubView(ModelViewSet):
     queryset = Club.objects.prefetch_related('club_image', 'club_table', 'club_reservation', 'price_list', 'game_list', 'club_rules_list', \
         'game_accessories_specification_list').select_related('computer_club') # префетч есть связь от род класса clubs.Club селект дочерний
@@ -31,6 +18,19 @@ class ClubView(ModelViewSet):
     serializer_class = ClubSerializer 
     lookup_field = 'pk'
     permission_classes = (IsAdminUserClubCreate, )
+
+class AnnouncementView(ModelViewSet):
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+    lookup_field = 'pk'
+    permission_classes = (IsAdminOrCreateClub, )
+
+class ComputerClubView(ModelViewSet):
+    queryset = ComputerClub.objects.prefetch_related('announcement_computer_club', 'club_computer_club')
+    serializer_class = ComputerClubSerializer
+    lookup_field = 'pk'
+    permission_classes = (IsAdminOrCreateClub, )
+    #http_method_names = ['get', 'post']
 
 class ClubImageView(ModelViewSet):
     queryset = ClubImage.objects.all()
@@ -60,7 +60,7 @@ class ReservationView(ModelViewSet):
         reservation = Reservation.objects.create(club=computer_club, seats=seats, client=user, \
             time=time, using_time=using_time, status=status)
 
-        if request.data == Reservation:
+        if request.data == 'Post':
             self.status = Table.objects.get(id=seats.get('seats_id')).status
             status = self.status
             Reservation.objects.create(
