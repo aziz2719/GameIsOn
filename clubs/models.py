@@ -1,5 +1,4 @@
 from django.db import models
-from .choices import StatusChoice
 
 
 class ComputerClub(models.Model):
@@ -45,7 +44,6 @@ class Club(models.Model):
 class Table(models.Model):
     club = models.ForeignKey('clubs.Club', models.CASCADE, related_name='club_table', null=True)
     place_number = models.IntegerField('Номер места')
-    status = models.IntegerField('Статус', choices=StatusChoice.choices, default=1)
     
     class Meta:
         verbose_name = 'Место'
@@ -61,17 +59,10 @@ class Reservation(models.Model):
     owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner_reservation', null=True)
     time = models.TimeField(default='00:00')
     using_time = models.FloatField(default='00:00')
-    status = models.IntegerField('Статус', choices=StatusChoice.choices, default=2)
 
     class Meta:
         verbose_name = 'Бронирование'
         verbose_name_plural = 'Бронирование'
-
-    """def save(self):
-        time1 = self.time1
-        time1 = time1.replace(hour=time1.hour + self.using_time)
-        self.time2 = time1
-        super(Reservation, self).save()"""
     
     def __str__(self):
         return f'{self.time} {self.using_time}'

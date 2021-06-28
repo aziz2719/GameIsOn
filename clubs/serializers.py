@@ -9,16 +9,19 @@ class ClubImageSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 
-class TableSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Table
-        fields = ('__all__')
-
-
 class ReservationSerializer(serializers.ModelSerializer):
+    owner = serializers.StringRelatedField(many=False)
     class Meta:
         model = Reservation
-        fields = ('computer_club', 'seats', 'owner', 'time', 'using_time', 'status')
+        fields = ('computer_club', 'seats', 'owner', 'time', 'using_time')
+
+
+class TableSerializer(serializers.ModelSerializer):
+    seats_reservation = ReservationSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Table
+        fields = ('id', 'club', 'place_number', 'seats_reservation')
 
 
 class PriceListSerializer(serializers.ModelSerializer):
@@ -56,7 +59,8 @@ class ClubSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Club
-        fields = ('id', 'club', 'address', 'phone', 'seat', 'club_image', 'club_table', 'club_reservation', 'price_list', 'game_list', 'club_rules_list', 'game_accessories_specification_list')
+        fields = ('id', 'club', 'address', 'phone', 'seat', 'club_image', 'club_table', 'club_reservation', 'price_list',
+                  'game_list', 'club_rules_list', 'game_accessories_specification_list')
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):

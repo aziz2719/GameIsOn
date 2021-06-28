@@ -13,9 +13,6 @@ class UserRegisterSerializer(serializers.Serializer):
     last_name = serializers.CharField()
     email = serializers.EmailField(required=False)
     phone = serializers.CharField(required=False)
-    address = serializers.CharField(required=False)
-    image = serializers.ImageField(required=False) #'required=True' обязательно к заполнению или нет
-    date_of_birth = serializers.DateField(required=False)
 
     def create(self, validated_data):
         password = validated_data.pop('password')
