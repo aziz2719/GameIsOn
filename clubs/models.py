@@ -44,7 +44,7 @@ class Club(models.Model):
 class Table(models.Model):
     club = models.ForeignKey('clubs.Club', models.CASCADE, related_name='club_table', null=True)
     place_number = models.IntegerField('Номер места')
-    
+
     class Meta:
         verbose_name = 'Место'
         verbose_name_plural = 'Места'
@@ -57,8 +57,8 @@ class Reservation(models.Model):
     computer_club = models.ForeignKey('clubs.Club', models.CASCADE, related_name='club_reservation', null=True)
     seats = models.ForeignKey('clubs.Table', models.CASCADE, related_name='seats_reservation', null=True)
     owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner_reservation', null=True)
-    time = models.TimeField(default='00:00')
-    using_time = models.FloatField(default='00:00')
+    time = models.TimeField('Введите время бронирования', default='00:00')
+    using_time = models.PositiveSmallIntegerField('Введите на сколько часов вы садитесь')
 
     class Meta:
         verbose_name = 'Бронирование'
@@ -66,6 +66,7 @@ class Reservation(models.Model):
     
     def __str__(self):
         return f'{self.time} {self.using_time}'
+
 
 class PriceList(models.Model):
     club = models.ForeignKey('clubs.Club', models.CASCADE, related_name='price_list', null=True)

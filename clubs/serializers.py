@@ -11,6 +11,7 @@ class ClubImageSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
+
     class Meta:
         model = Reservation
         fields = ('computer_club', 'seats', 'owner', 'time', 'using_time')
