@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import timedelta
 from django.core.validators import MinValueValidator, MaxValueValidator
-import datetime
 
 class ComputerClub(models.Model):
     computer_club = models.CharField('Компьютерные клубы', max_length=100)

@@ -51,7 +51,7 @@ class TableView(ModelViewSet):
 class ReservationView(ModelViewSet):
     queryset = Reservation.objects.filter(time__date=date.today())
     serializer_class = ReservationSerializer
-    #permission_classes = (IsAuthenticated, UserPermissionOrReadOnly) 
+    permission_classes = (IsAuthenticated, UserPermissionOrReadOnly) 
     lookup_field = 'pk'
     filter_backends = [filters.SearchFilter]
     search_fields = ['computer_club']
