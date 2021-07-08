@@ -10,11 +10,11 @@ class ClubImageSerializer(serializers.ModelSerializer):
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-    owner = serializers.StringRelatedField(many=False)
+    #owner = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = Reservation
-        fields = ('computer_club', 'seats', 'owner', 'time', 'using_time')
+        fields = ('computer_club', 'seats', 'owner', 'time', 'time1', 'using_time')
 
 
 class TableSerializer(serializers.ModelSerializer):

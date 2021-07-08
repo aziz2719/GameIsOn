@@ -1,5 +1,7 @@
 from django.db import models
-
+from datetime import timedelta
+from django.core.validators import MinValueValidator, MaxValueValidator
+import datetime
 
 class ComputerClub(models.Model):
     computer_club = models.CharField('Компьютерные клубы', max_length=100)
@@ -57,15 +59,23 @@ class Reservation(models.Model):
     computer_club = models.ForeignKey('clubs.Club', models.CASCADE, related_name='club_reservation', null=True)
     seats = models.ForeignKey('clubs.Table', models.CASCADE, related_name='seats_reservation', null=True)
     owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner_reservation', null=True)
-    time = models.TimeField('Введите время бронирования', default='00:00')
-    using_time = models.PositiveSmallIntegerField('Введите на сколько часов вы садитесь')
+    time = models.DateTimeField('Введите время бронирования')
+    time1 = models.DateTimeField('Время окончания бронирования', blank=True, null=True)
+    using_time = models.PositiveSmallIntegerField('Введите на сколько часов вы садитесь', validators=[MinValueValidator(1,message='Меньше 1 нельзя!'),\
+    MaxValueValidator(10,message='Больше 10 нельзя!')])
 
     class Meta:
         verbose_name = 'Бронирование'
         verbose_name_plural = 'Бронирование'
     
     def __str__(self):
-        return f'{self.time} {self.using_time}'
+        return f'{self.computer_club } {self.seats } {self.time } {self.using_time } {self.time1 } {self.owner }'
+
+    def save(self, *args, **kwargs):
+        time = self.time
+        time += timedelta(hours=self.using_time)
+        self.time1 = time
+        super(Reservation, self).save()
 
 
 class PriceList(models.Model):

@@ -11,7 +11,7 @@ from .permissions import IsStaffOrCreateUser, UserPermissionOrReadOnly
 
 class UserRegisterView(CreateAPIView):
     serializer_class = UserRegisterSerializer
-    permission_classes = (IsStaffOrCreateUser, UserPermissionOrReadOnly)
+    #permission_classes = (IsStaffOrCreateUser, UserPermissionOrReadOnly)
 
 
 class UserLoginView(GenericAPIView):

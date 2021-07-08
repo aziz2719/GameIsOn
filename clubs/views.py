@@ -1,13 +1,15 @@
 from django.shortcuts import render
+from datetime import date
+
 from rest_framework import filters
-from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+
 from .models import Club, ClubImage, Table, Reservation, ComputerClub, Announcement, PriceList, Game, ClubRules, GameAccessoriesSpecification
 from .serializers import ClubSerializer, ClubImageSerializer, TableSerializer, ReservationSerializer, ComputerClubSerializer, AnnouncementSerializer, \
     PriceListSerializer, GameSerializer, ClubRulesSerializer, GameAccessoriesSpecificationSerializer
-from .permissions import IsAdminUserClubCreate, IsAdminOrCreateClub
+from .permissions import IsAdminUserClubCreate, IsAdminOrCreateClub, UserPermissionOrReadOnly
 
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import ModelViewSet
 
 class ClubView(ModelViewSet):
     queryset = Club.objects.prefetch_related('club_image', 'club_table', 'club_reservation',
@@ -17,11 +19,13 @@ class ClubView(ModelViewSet):
     lookup_field = 'pk'
     permission_classes = (IsAdminUserClubCreate, )
 
+
 class AnnouncementView(ModelViewSet):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     lookup_field = 'pk'
     permission_classes = (IsAdminOrCreateClub, )
+
 
 class ComputerClubView(ModelViewSet):
     queryset = ComputerClub.objects.prefetch_related('announcement_computer_club', 'club_computer_club')
@@ -29,11 +33,13 @@ class ComputerClubView(ModelViewSet):
     lookup_field = 'pk'
     permission_classes = (IsAdminOrCreateClub, )
 
+
 class ClubImageView(ModelViewSet):
     queryset = ClubImage.objects.all()
     serializer_class = ClubImageSerializer
     lookup_field = 'pk'
     permission_classes = (IsAdminUserClubCreate, )
+
 
 class TableView(ModelViewSet):
     queryset = Table.objects.prefetch_related('seats_reservation')
@@ -41,17 +47,22 @@ class TableView(ModelViewSet):
     lookup_field = 'pk'
     permission_classes = (IsAdminUserClubCreate, )
 
+
 class ReservationView(ModelViewSet):
-    queryset = Reservation.objects.all()
+    queryset = Reservation.objects.filter(time__date=date.today())
     serializer_class = ReservationSerializer
-    permission_classes = (IsAuthenticated, ) 
+    #permission_classes = (IsAuthenticated, UserPermissionOrReadOnly) 
     lookup_field = 'pk'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['computer_club']
+
 
 class PriceListView(ModelViewSet):
     queryset = PriceList.objects.all()
     serializer_class = PriceListSerializer
     lookup_field = 'pk'
     permission_classes = (IsAdminUserClubCreate, )
+
 
 class GameView(ModelViewSet):
     queryset = Game.objects.all()
@@ -61,11 +72,13 @@ class GameView(ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['game']
 
+
 class ClubRulesView(ModelViewSet):
     queryset = ClubRules.objects.all()
     serializer_class = ClubRulesSerializer
     lookup_field = 'pk'
     permission_classes = (IsAdminUserClubCreate, )
+
 
 class GameAccessoriesSpecificationView(ModelViewSet):
     queryset = GameAccessoriesSpecification.objects.all()

@@ -13,11 +13,14 @@ class ClubImageAdmin(admin.ModelAdmin):
     inlines = [ClubImageInline]
 
 
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'computer_club', 'seats', 'time', 'using_time', 'time1', 'owner' ]
+admin.site.register(Reservation, ReservationAdmin)
+
 admin.site.register(ComputerClub)
 admin.site.register(Announcement)
 admin.site.register(Club, ClubImageAdmin)
 admin.site.register(Table)
-admin.site.register(Reservation)
 admin.site.register(PriceList)
 admin.site.register(Game)
 admin.site.register(ClubRules)
